@@ -13,9 +13,9 @@ export function setupDocs(app: Application) {
     const swaggerDefinition = {
         openapi: '3.0.0',
         info: {
-            title: 'Events API', // API title
-            version: '1.0.0', // API version
-            description: 'API for managing events and user authentication.', // Short description
+            title: 'Events API', 
+            version: '1.0.0', 
+            description: 'API for managing events and user authentication.', 
         },
         servers: [
             {
