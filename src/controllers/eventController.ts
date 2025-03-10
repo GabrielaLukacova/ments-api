@@ -1,144 +1,170 @@
 import { Request, Response } from 'express';
-import { EventModel } from '../models/eventModel';
+import { eventModel } from '../models/eventModel';
 import { connect, disconnect } from '../repository/database';
 
-// CRUD operations: Create, Read, Update, Delete
-
 /**
- * Handles the creation of a new event.
- * Extracts data from the request body, saves it to the database, and returns the created event.
- * @param req - Express request object containing event details in the request body.
- * @param res - Express response object used to return the created event or an error message.
+ * Creates a new event in the database based on the request body
+ * @param req - The request object containing the event data
+ * @param res - The response object to send the result or error
  */
 export async function createEvent(req: Request, res: Response): Promise<void> {
-    const data = req.body;
 
-    try {
-        await connect();
+  const eventData = req.body;
 
-        const event = new EventModel(data);
-        const result = await event.save();
+  try {
+    // Connect to the database
+    await connect();
 
-        res.status(201).send(result);
-    } catch (err) {
-        res.status(500).send("Error creating event. Details: " + err);
-    } finally {
-        await disconnect();
-    }
+    // Create a new event instance with the provided data
+    const event = new eventModel(eventData);
+    const result = await event.save();
+
+    // Send the created event as a response
+    res.status(201).send(result);
+  } catch (err) {
+    res.status(500).send("An error occurred while creating the event. Error: " + err);
+  } finally {
+    // Disconnect from the database after the operation
+    await disconnect();
+  }
 }
 
 /**
- * Retrieves all events from the database.
- * Sends back an array of events or an error message if retrieval fails.
- * @param req - Express request object.
- * @param res - Express response object used to return event data or an error message.
+ * Retrieves all events from the database
+ * @param req - The request object
+ * @param res - The response object to send the events or error
  */
-export async function getAllEvents(req: Request, res: Response) {
-    try {
-        await connect();
+export async function getAllEvents(req: Request, res: Response): Promise<void> {
 
-        const result = await EventModel.find({});
+  try {
+    // Connect to the database
+    await connect();
 
-        res.status(200).send(result);
-    } catch (err) {
-        res.status(500).send("Error retrieving events. Details: " + err);
-    } finally {
-        await disconnect();
-    }
+    // Retrieve all events
+    const result = await eventModel.find({});
+
+    // Send the list of events as a response
+    res.status(200).send(result);
+  } catch (err) {
+    res.status(500).send("An error occurred while retrieving events. Error: " + err);
+  } finally {
+    // Disconnect from the database
+    await disconnect();
+  }
 }
 
 /**
- * Retrieves a single event by its ID.
- * Sends the event data if found, or an error message if not.
- * @param req - Express request object containing the event ID in the URL parameters.
- * @param res - Express response object used to return the event or an error message.
+ * Retrieves a specific event by its ID from the database
+ * @param req - The request object containing the event ID as a URL parameter
+ * @param res - The response object to send the event or error
  */
-export async function getEventById(req: Request, res: Response) {
-    try {
-        await connect();
+export async function getEventById(req: Request, res: Response): Promise<void> {
 
-        const id = req.params.id;
-        const result = await EventModel.findById(id);
+  try {
+    // Connect to the database
+    await connect();
 
-        res.status(200).send(result);
-    } catch (err) {
-        res.status(500).send("Error retrieving event by ID. Details: " + err);
-    } finally {
-        await disconnect();
+    // Retrieve the event by its ID from the URL parameter
+    const eventId = req.params.id;
+    const result = await eventModel.findById(eventId);
+
+    // If the event is found, send it as a response, otherwise send a 404 error
+    if (result) {
+      res.status(200).send(result);
+    } else {
+      res.status(404).send("Event not found with the provided ID.");
     }
+  } catch (err) {
+    res.status(500).send("An error occurred while retrieving the event. Error: " + err);
+  } finally {
+    // Disconnect from the database
+    await disconnect();
+  }
 }
 
 /**
- * Searches for events based on a query key and value.
- * Uses case-insensitive regex matching to find relevant events.
- * @param req - Express request object containing query parameters (key and value).
- * @param res - Express response object used to return matching events or an error message.
+ * Retrieves events that match a specific query from the database
+ * @param req - The request object containing the query parameters (key and value)
+ * @param res - The response object to send the filtered events or error
  */
-export async function getEventsByQuery(req: Request, res: Response) {
-    const key = req.params.key;
-    const val = req.params.val;
+export async function getEventsByQuery(req: Request, res: Response): Promise<void> {
 
-    try {
-        await connect();
+  const key = req.params.key;
+  const value = req.params.val;
 
-        const result = await EventModel.find({ [key]: { $regex: val, $options: 'i' } });
+  try {
+    // Connect to the database
+    await connect();
 
-        res.status(200).send(result);
-    } catch (err) {
-        res.status(500).send("Error retrieving events based on query. Details: " + err);
-    } finally {
-        await disconnect();
-    }
+    // Search for events using a regular expression to match the specified query
+    const result = await eventModel.find({ [key]: { $regex: value, $options: 'i' } });
+
+    // Send the filtered events as a response
+    res.status(200).send(result);
+  } catch (err) {
+    res.status(500).send("An error occurred while retrieving events. Error: " + err);
+  } finally {
+    // Disconnect from the database
+    await disconnect();
+  }
 }
 
 /**
- * Updates an event based on its ID.
- * Accepts updated event details in the request body and applies them to the specified event.
- * @param req - Express request object containing the event ID and updated data.
- * @param res - Express response object indicating success or failure of the update.
+ * Updates an event based on its ID with the new data from the request body
+ * @param req - The request object containing the event ID and new data
+ * @param res - The response object to send the result or error
  */
-export async function updateEventById(req: Request, res: Response) {
-    const id = req.params.id;
+export async function updateEventById(req: Request, res: Response): Promise<void> {
 
-    try {
-        await connect();
+  const eventId = req.params.id;
 
-        const result = await EventModel.findByIdAndUpdate(id, req.body);
+  try {
+    // Connect to the database
+    await connect();
 
-        if (!result) {
-            res.status(404).send('Event with ID=' + id + ' not found. Update failed.');
-        } else {
-            res.status(200).send('Event successfully updated.');
-        }
-    } catch (err) {
-        res.status(500).send("Error updating event by ID. Details: " + err);
-    } finally {
-        await disconnect();
+    // Update the event by its ID
+    const result = await eventModel.findByIdAndUpdate(eventId, req.body, { new: true });
+
+    // If the event is found and updated, send a success message, else send a 404 error
+    if (result) {
+      res.status(200).send("Event successfully updated.");
+    } else {
+      res.status(404).send(`Event with ID=${eventId} not found.`);
     }
+  } catch (err) {
+    res.status(500).send("An error occurred while updating the event. Error: " + err);
+  } finally {
+    // Disconnect from the database
+    await disconnect();
+  }
 }
 
 /**
- * Deletes an event by its ID.
- * Removes the event from the database and returns a success or failure message.
- * @param req - Express request object containing the event ID.
- * @param res - Express response object indicating whether the deletion was successful.
+ * Deletes an event by its ID from the database
+ * @param req - The request object containing the event ID
+ * @param res - The response object to send the result or error
  */
-export async function deleteEventById(req: Request, res: Response) {
-    const id = req.params.id;
+export async function deleteEventById(req: Request, res: Response): Promise<void> {
 
-    try {
-        await connect();
+  const eventId = req.params.id;
 
-        const result = await EventModel.findByIdAndDelete(id);
+  try {
+    // Connect to the database
+    await connect();
 
-        if (!result) {
-            res.status(404).send('Event with ID=' + id + ' not found. Deletion failed.');
-        } else {
-            res.status(200).send('Event successfully deleted.');
-        }
-    } catch (err) {
-        res.status(500).send("Error deleting event by ID. Details: " + err);
-    } finally {
-        await disconnect();
+    // Delete the event by its ID
+    const result = await eventModel.findByIdAndDelete(eventId);
+
+    // If the event is found and deleted, send a success message, else send a 404 error
+    if (result) {
+      res.status(200).send("Event successfully deleted.");
+    } else {
+      res.status(404).send(`Event with ID=${eventId} not found.`);
     }
+  } catch (err) {
+    res.status(500).send("An error occurred while deleting the event. Error: " + err);
+  } finally {
+    // Disconnect from the database
+    await disconnect();
+  }
 }

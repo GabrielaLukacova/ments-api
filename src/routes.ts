@@ -128,7 +128,7 @@ router.get('/events', getAllEvents);
  *     description: Retrieves details of a specific event by its ID.
  *     parameters:
  *       - in: path
- *         name: id
+ *         title: id
  *         required: true
  *         description: The unique ID of the event.
  *         schema:
@@ -151,13 +151,13 @@ router.get('/events/:id', getEventById);
  *     description: Retrieves events based on a given key-value pair.
  *     parameters:
  *       - in: path
- *         name: key
+ *         title: key
  *         required: true
- *         description: The event field to search by (e.g., "location").
+ *         description: The event field to search by (e.g., "place").
  *         schema:
  *           type: string
  *       - in: path
- *         name: val
+ *         title: val
  *         required: true
  *         description: The value to match.
  *         schema:
@@ -183,7 +183,7 @@ router.get('/events/query/:key/:val', getEventsByQuery);
  *       - ApiKeyAuth: []
  *     parameters:
  *       - in: path
- *         name: id
+ *         title: id
  *         required: true
  *         description: The ID of the event to update.
  *         schema:
@@ -216,7 +216,7 @@ router.put('/events/:id', verifyToken, updateEventById);
  *       - ApiKeyAuth: []
  *     parameters:
  *       - in: path
- *         name: id
+ *         title: id
  *         required: true
  *         description: The ID of the event to delete.
  *         schema:

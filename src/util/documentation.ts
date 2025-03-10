@@ -39,7 +39,7 @@ export function setupDocs(app: Application) {
                 Event: {
                     type: 'object',
                     properties: {
-                        name: { type: 'string', description: 'Name of the event' },
+                        title: { type: 'string', description: 'Name of event' },
                         date: { type: 'string', format: 'date', description: 'Date when the event takes place' },
                         time: { type: 'string', description: 'Time of the event (HH:MM format)' },
                         place: { type: 'string', description: 'Location of the event' },

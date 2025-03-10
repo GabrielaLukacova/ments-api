@@ -2,7 +2,7 @@ import bcrypt from "bcrypt";
 import dotenvFlow from "dotenv-flow";
 
 
-import { EventModel } from "../models/eventModel"; 
+import { eventModel } from "../models/eventModel"; 
 import { userModel } from "../models/userModel"; 
 import { connect, disconnect } from "../repository/database";
 
@@ -35,7 +35,7 @@ export async function seed() {
  * a clean slate before inserting new seed data.
  */
 export async function deleteAllData() {
-  await EventModel.deleteMany();
+  await eventModel.deleteMany();
   await userModel.deleteMany();
   console.log("Previous records deleted successfully.");
 }
@@ -76,7 +76,7 @@ export async function seedData() {
       title: "Sunrise Yoga in the Park",
       date: new Date("2024-06-15"),
       time: "06:30 AM",
-      location: "Central Park, Aarhus",
+      place: "Central Park, Aarhus",
       eventType: "Active",
       imageURL: "https://picsum.photos/500/500",
       description:
@@ -87,7 +87,7 @@ export async function seedData() {
       title: "Watercolor Painting Class",
       date: new Date("2024-07-20"),
       time: "02:00 PM",
-      location: "Copenhagen Art Center",
+      place: "Copenhagen Art Center",
       eventType: "Creative",
       imageURL: "https://picsum.photos/500/500",
       description:
@@ -98,7 +98,7 @@ export async function seedData() {
       title: "Professional Networking Night",
       date: new Date("2024-08-05"),
       time: "06:00 PM",
-      location: "Copenhagen Business Hub",
+      place: "Copenhagen Business Hub",
       eventType: "Social",
       imageURL: "https://picsum.photos/500/500",
       description:
@@ -109,7 +109,7 @@ export async function seedData() {
       title: "Charity Gala Dinner",
       date: new Date("2024-09-12"),
       time: "07:30 PM",
-      location: "Royal Hall, Odense",
+      place: "Royal Hall, Odense",
       eventType: "Special",
       imageURL: "https://picsum.photos/500/500",
       description:
@@ -120,7 +120,7 @@ export async function seedData() {
       title: "Weekend Tennis Tournament",
       date: new Date("2024-10-10"),
       time: "10:00 AM",
-      location: "Aalborg Tennis Club",
+      place: "Aalborg Tennis Club",
       eventType: "Sport",
       imageURL: "https://picsum.photos/500/500",
       description:
@@ -129,7 +129,7 @@ export async function seedData() {
     },
   ];
 
-  await EventModel.insertMany(events);
+  await eventModel.insertMany(events);
 
   console.log("Sample users and events inserted successfully.");
 }

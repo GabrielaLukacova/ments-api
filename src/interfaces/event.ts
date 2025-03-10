@@ -1,7 +1,7 @@
 import { User } from './user';
 
 export interface Event extends Document {
-    name: string;
+    title: string;
     date: Date;
     time: string;
     place: string;
