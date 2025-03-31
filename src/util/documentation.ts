@@ -21,6 +21,10 @@ export function setupDocs(app: Application) {
             {
                 url: 'http://localhost:4000/api/', // Local development server
                 description: 'Development Server',
+            },
+            {
+                url: 'https://ments-api-2t08.onrender.com/api/', // Render deployment
+                description: 'Production Server',
             }
         ],
         components: {
@@ -28,7 +32,7 @@ export function setupDocs(app: Application) {
                 ApiKeyAuth: {
                     type: 'apiKey',
                     in: 'header',
-                    name: 'auth-token', // Name of the header used for authentication
+                    name: 'auth-token', 
                 },
             },
             schemas: {

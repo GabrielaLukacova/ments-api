@@ -10,6 +10,16 @@ const swaggerOptions = {
       version: "1.0.0",
       description: "API documentation",
     },
+    servers: [
+      {
+        url: "http://localhost:4000", 
+        description: "Local server",
+      },
+      {
+        url: "https://ments-api-2t08.onrender.com", 
+        description: "Production server",
+      },
+    ],
   },
   apis: ["./routes.ts"], 
 };
