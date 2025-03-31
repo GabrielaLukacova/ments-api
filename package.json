@@ -22,7 +22,7 @@
     ]
   },
   "dependencies": {
-    "bcrypt": "^5.1.1",
+    "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
     "cross": "^1.0.0",
     "dotenv-flow": "^4.1.0",
@@ -39,7 +39,6 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^9.6.0",
-    "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/joi": "^17.2.2",

@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import dotenvFlow from "dotenv-flow";
 
 

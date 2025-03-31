@@ -7,7 +7,7 @@ import {
 
 import jwt from "jsonwebtoken";
 
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import Joi, { ValidationResult } from "joi";
 
 // Project imports
