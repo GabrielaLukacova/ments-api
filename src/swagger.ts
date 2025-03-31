@@ -6,9 +6,9 @@ const swaggerOptions = {
   definition: {
     openapi: "3.0.0",
     info: {
-      title: "Moje API",
+      title: "My API",
       version: "1.0.0",
-      description: "API dokumentácia",
+      description: "API documentation",
     },
   },
   apis: ["./routes.ts"], 
