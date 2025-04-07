@@ -20,11 +20,11 @@ export function setupDocs(app: Application) {
         servers: [
             {
                 url: 'http://localhost:4000/api/', // Local development server
-                description: 'Development Server',
+                description: 'Local server',
             },
             {
                 url: 'https://ments-api-2t08.onrender.com/api/', // Render deployment
-                description: 'Production Server',
+                description: 'Online server',
             }
         ],
         components: {
