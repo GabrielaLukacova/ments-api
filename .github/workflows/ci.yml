@@ -1,17 +1,16 @@
 name: Node.js CI/CD
 
-# workflow is triggered on push or pull request
 on:
   push:
     branches:
-      - main  
+      - main
   pull_request:
     branches:
-      - main  
+      - main
 
 jobs:
   build:
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest
 
     steps:
       - name: Check out repository
@@ -20,49 +19,48 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'  
+          node-version: '14'
 
       - name: Cache npm dependencies
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
-          path: ~/.npm  # Cache the npm modules folder
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}  # Cache key based on package-lock
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
 
       - name: Install dependencies
-        run: npm install  
+        run: npm install
 
       - name: Run tests
-        run: npm test 
+        run: npm test
 
       - name: Build application
-        run: npm run build 
+        run: npm run build
 
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Check out repository
         uses: actions/checkout@v2
 
       - name: Install Render CLI
         run: |
-          echo "Installing Render CLI"
           curl -sSL https://cdn.render.com/cli/render-cli.sh | bash
-          
+
       - name: Deploy to Render
         run: |
-          echo "Deploying to Render.com"
-          render deploy --service ments-api --branch main  
+          render deploy --service ments-api --branch main
         env:
-          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }} 
+          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
 
       - name: Notify deployment success
         run: echo "Deployment to Render.com was successful!"
 
   lint:
-    runs-on: ubuntu-latest  
+    runs-on: ubuntu-latest
+
     steps:
       - name: Check out repository
         uses: actions/checkout@v2
@@ -70,10 +68,10 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14' 
+          node-version: '14'
 
       - name: Install dependencies
-        run: npm install  
+        run: npm install
 
-      - name: Run linter (optional)
+      - name: Run linter
         run: npm run lint
