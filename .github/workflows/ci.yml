@@ -4,58 +4,46 @@ on:
   push:
     branches: [main]
 
+
 jobs:
-  
+
   test:
     name: Test
     runs-on: ubuntu-latest
 
-    strategy:
+    strategy: 
       matrix:
-        node-version: [14.x]
+        node-version: [16.x]
 
     steps:
-      - name: Check the code
-        uses: actions/checkout@v2
-        with:
+      - name: Checkout 
+        uses: actions/checkout@v3 
+        with: 
           fetch-depth: 0
 
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v2
-        with:
+      - name: Use Node.JS ${{ matrix.node-version }}
+        uses: actions/setup-node@v3 
+        with: 
           node-version: ${{ matrix.node-version }}
-      
+
       - name: NPM install, build and test
         run: |
           npm install
-          npm run build
+          npm run 
           npm test
-        env:
-          DBHOST: ${{ secrets.DBHOST }}  
-          TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}  
-          JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}  
-
-
+        env: 
+          DBHOST: ${{ secrets.DBHOST }}
+          TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}
+          JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}
+  
   deploy:
     name: Deploy
-    needs: [test]
+    needs: [test] 
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Check the code
-        uses: actions/checkout@v2
+    steps: 
+      - name: Deploy to production
+        uses: johnbeynon/render-deploy-action@v0.0.8
         with:
-          fetch-depth: 0
-      
-      - name: Install Render CLI
-        run: |
-          curl -sSL https://cdn.render.com/cli/render-cli.sh | bash
-
-      - name: Deploy to Render
-        run: |
-          render deploy --service ments-api --branch main
-        env:
-          RENDER_API_KEY: ${{ secrets.RENDER_API_KEY }}
-
-      - name: Notify deployment success
-        run: echo "Deployment to Render.com was successful!"
+          service-id: ${{ secrets.SERVICE_ID }} 
+          api-key: ${{ secrets.RENDER_API_KEY }}
