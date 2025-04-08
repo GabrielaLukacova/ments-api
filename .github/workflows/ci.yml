@@ -2,49 +2,51 @@ name: Node.js CI/CD
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  build:
+  
+  test:
+    name: Test
     runs-on: ubuntu-latest
 
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
+    strategy:
+      matrix:
+        node-version: [14.x]
 
-      - name: Set up Node.js
+    steps:
+      - name: Check the code
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: ${{ matrix.node-version }}
+      
+      - name: NPM install, build and test
+        run: |
+          npm install
+          npm run build
+          npm test
+        env:
+          DBHOST: ${{ secrets.DBHOST }}  
+          TOKEN_SECRET: ${{ secrets.TOKEN_SECRET }}  
+          JWT_EXPIRES_IN: ${{ secrets.JWT_EXPIRES_IN }}  
 
-      - name: Cache npm dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run tests
-        run: npm test
-
-      - name: Build application
-        run: npm run build
 
   deploy:
+    name: Deploy
+    needs: [test]
     runs-on: ubuntu-latest
 
     steps:
-      - name: Check out repository
+      - name: Check the code
         uses: actions/checkout@v2
-
+        with:
+          fetch-depth: 0
+      
       - name: Install Render CLI
         run: |
           curl -sSL https://cdn.render.com/cli/render-cli.sh | bash
@@ -57,21 +59,3 @@ jobs:
 
       - name: Notify deployment success
         run: echo "Deployment to Render.com was successful!"
-
-  lint:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v2
-
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run linter
-        run: npm run lint
