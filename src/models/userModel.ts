@@ -1,4 +1,5 @@
-import { Schema, model } from 'mongoose';
+// import { Schema, model } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
 import { User } from '../interfaces/user';
 
 const userSchema = new Schema<User>({
@@ -8,4 +9,5 @@ const userSchema = new Schema<User>({
     registerDate: { type: Date, default: Date.now }
 });
 
-export const userModel = model<User>('User', userSchema);
+// export const userModel = model<User>('User', userSchema);
+export const UserModel = mongoose.model<User>('User', userSchema);

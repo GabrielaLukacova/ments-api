@@ -1,4 +1,6 @@
-import { Schema, model, Document } from 'mongoose';
+// import { Schema, model, Document } from 'mongoose';
+import mongoose, { Schema, model } from 'mongoose';
+
 import { Event } from '../interfaces/event';
 
 // Event schema definition with validation and required fields
@@ -54,4 +56,6 @@ eventSchema.pre('findOneAndUpdate', function <T extends Document>(this: any) {
 });
 
 // Create and export the Event model based on the event schema
-export const eventModel = model<Event>('Event', eventSchema);
+// export const eventModel = model<Event>('Event', eventSchema);
+
+export const EventModel = mongoose.model<Event>('Event', eventSchema);
