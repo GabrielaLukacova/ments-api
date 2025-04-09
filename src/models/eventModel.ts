@@ -58,4 +58,4 @@ eventSchema.pre('findOneAndUpdate', function <T extends Document>(this: any) {
 // Create and export the Event model based on the event schema
 // export const eventModel = model<Event>('Event', eventSchema);
 
-export const EventModel = mongoose.model<Event>('Event', eventSchema);
+export const eventModel = mongoose.model<Event>('Event', eventSchema);
