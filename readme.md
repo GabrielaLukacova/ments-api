@@ -14,3 +14,5 @@ This is a backend REST API built with **Node.js**, **Express**, and **TypeScript
 - Unit testing implemented with **Jest**
 - Deployed on **Render**
 - Integrated **CI/CD pipeline** for automated testing and deployment
+
+![CI Status](https://github.com/GabrielaLukacova/ments-api/actions/workflows/ci.yml/badge.svg)
