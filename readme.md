@@ -4,26 +4,13 @@ This is a backend REST API built with **Node.js**, **Express**, and **TypeScript
 
 ## Features
 
-- User registration and login
-- JWT-based authentication
-- Event listing and registration
-- Input validation with Joi
-- RESTful endpoints
-- MongoDB database with Mongoose
-- Unit testing with Jest
-- Postman for manual testing
-- Deployment with Render
-
-## Technologies Used
-
-- Node.js
-- Express.js
-- TypeScript
-- MongoDB
-- Mongoose
-- Joi
-- JWT (jsonwebtoken)
-- Jest (unit testing)
-- Postman (manual API testing)
-- **Swagger** – Used for interactive API documentation and testing
-- Render (deployment)
+- User registration and login with secure **JWT-based authentication**
+- View list of events and register for participation
+- Input validation using **Joi** to ensure data integrity
+- RESTful API structure built with **Node.js**, **Express**, and **TypeScript**
+- Data storage with **MongoDB**, using **Mongoose** 
+- Interactive API documentation and testing via **Swagger**
+- Manual API testing supported through **Postman**
+- Unit testing implemented with **Jest**
+- Deployed on **Render**
+- Integrated **CI/CD pipeline** for automated testing and deployment
